@@ -40,16 +40,18 @@ class linked_list
 		node<T> * p_head;//primero 
 		node<T> * p_last;//ultimo
 		node<T> * aux;
+		node<T> * sn;
 	public:
 		linked_list(){
+			sn=new node<T>[100000];
 			p_head=NULL;
 			p_last=NULL;
 		}
 		virtual ~linked_list(){
 		}
 		void insert_front(const T & d){
-				
-				aux=new node<T>(d);
+				int idxfree=0;
+				aux=&sn[idxfree++];
 				aux->dato=d;//guarda num
 				if(p_head==NULL){//lista vacia
 					p_head=aux;
@@ -60,6 +62,7 @@ class linked_list
 				}
 		}
 		void insert_back(const T & d){
+				
 				aux=new node<T>(d);//asignar memoria
 				aux->dato=d;//guarda num
 				if(p_head==NULL){

@@ -16,10 +16,7 @@ class Node
 		Node<K,D> * p_children[2];
 	public:
 		 Node(const K & k,const D & d);
-		 virtual ~Node();
-
-		 
-
+		 ~Node();
 	friend class BST<K,D>;
 };
 
@@ -31,14 +28,18 @@ class BST
 
 	public:
 		BST(); //root null
-		virtual ~BST(){
+		virtual ~BST();
 
-		}
+		void destructor(Node<K,D> *n);
 		bool find(K _key);
 		bool insert(K _key,D _data);
 		bool remove(K _key);
 		void print(Node<K,D> * n);
 		void print();
+
+		void printgraf(Node<K,D> * n);
+		void printgraf();
+
 		int altura(Node<K,D> * n);
 		int altura();
 		int max(int a,int b);

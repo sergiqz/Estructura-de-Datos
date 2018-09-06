@@ -7,7 +7,6 @@ Node<K,D>::Node(const K & k,const D & d){
 }
 template<class K,class D>
 Node<K,D>::~Node(){
-	
 
 }
 
@@ -15,6 +14,14 @@ template<class K,class D>
 BST<K,D>::BST(){
 	root=NULL;
 }
+
+
+template<class K,class D>
+BST<K,D>::~BST(){
+    destructor(root);
+}
+
+
 
 template<class K,class D>
 bool BST<K,D>::find(K _key){
@@ -68,6 +75,69 @@ void BST<K,D>::print()
 {
     print(root);
 }
+
+
+
+
+template<class K,class D>
+void BST<K,D>::printgraf(Node<K,D> * n)
+{
+    if(n)
+    {
+        if(n->p_children[0]!=NULL){
+            cout<<n->key;
+            cout<<"--";
+            cout<<n->p_children[0]->key<<endl;
+            printgraf(n->p_children[0]);
+        }
+
+
+        if(n->p_children[1]!=NULL){
+            cout<<n->key;
+            cout<<"--";
+            cout<<n->p_children[1]->key<<endl;
+            printgraf(n->p_children[1]);
+        }
+    }
+}
+
+template<class K,class D>
+void BST<K,D>::printgraf()
+{   
+    cout<<"graph {"<<endl;
+    cout<<root->key<<endl;
+    printgraf(root);
+    cout<<"}"<<endl;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 template<class K,class D>
 int BST<K,D>::altura(Node<K,D> * n){
@@ -126,14 +196,19 @@ bool BST<K,D>::remove(K _key){
             Node<K,D> *auxx;
             tmp=*aux;
             auxx=tmp->p_children[0];
-            while(auxx->p_children[1]!=NULL){
-                padre=auxx;
-                auxx=auxx->p_children[1];
+            padre=root;
+            if(auxx -> p_children[0]!=NULL or auxx -> p_children[0]!=NULL){
+                padre->p_children[0]=tmp->p_children[0];
+
+            }else{
+                while((auxx->p_children[1]!=NULL)){
+                    padre=auxx;
+                    auxx=auxx->p_children[1];
+                }
+                padre->p_children[1]=NULL;
+                padre->p_children[0]=NULL;
+            delete tmp;
             }
-            (*aux)->key=auxx->key;
-            padre->p_children[0]=NULL;
-            padre->p_children[1]=NULL;
-            delete auxx;
         }
 
     }
@@ -169,5 +244,16 @@ void BST<K,D>::print_inverse_leve(Node<K,D> *n,int level){
     }else if(level>1){
         print_inverse_leve(n->p_children[1],level-1);
         print_inverse_leve(n->p_children[0],level-1);
+    }   
+}
+
+
+template<class K,class D>
+void BST<K,D>::destructor(Node<K,D> *n){
+    if(n)
+    {
+    destructor(n->p_children[0]);
+    destructor(n->p_children[1]);
+        delete(n);
     }   
 }

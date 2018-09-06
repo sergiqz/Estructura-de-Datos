@@ -28,22 +28,31 @@ void remove_binary(int  low, int   high, BST<int, int> & tree)
 
 int main()
 {
-	BST<int, int> tree;
-	insert_binary(1,10, tree);
+
+	/*insert_binary(1,10, tree);
 	tree.print();
 	remove_binary(1,9,tree);
-	/*
-	bst<int, float> tree;
-	tree.insert(41, .43);
-	tree.insert(20, .5454);
-	tree.insert(65, .23);
-	tree.insert(50, .4542);
-	tree.insert(91, 43.5454);
-	tree.insert(72, 3.23);
-	tree.insert(99, 321.32);
+	*/
+	BST<int, int> tree;
+	tree.insert(10, 4);
+	tree.insert(15, 4);
+	tree.insert(13, 4);
+	tree.insert(16, 4);
+	tree.insert(5, 4);
+	tree.insert(3, 4);
+	tree.insert(6, 4);
+	tree.insert(2, 4);
+	//tree.insert(4, 4);
+	//tree.insert(1, 4);
+	
+
+	//tree.printgraf();
+	tree.remove(5);
 	tree.print();
 
-	cout << tree.remove(65) << endl;
+
+
+	/*cout << tree.remove(65) << endl;
 	tree.print();
 	cout << tree.insert(65,89) << endl;
 	tree.print();

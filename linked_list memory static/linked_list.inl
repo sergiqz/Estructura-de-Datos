@@ -111,6 +111,7 @@
 		void linked_list<T>::remove_front(){
 			
 			if(p_head==p_last){
+				free=p_head;
 				p_head=NULL;
 				p_last=NULL;
 			}else{
@@ -118,7 +119,7 @@
 			
 			p_head=p_head->p_next; 
 			free->p_next=free;
-			cout<<"dato eliminado: "<<freeme<<endl;
+			
 			}
 		}
 
@@ -132,7 +133,10 @@
 				free=aux->p_next;// despues de llegar al penultimo elemento apunto al siguiente q serio el ultimo y lo borro
 				aux->p_next=NULL;
 			}else{
-				free= NULL; // si ay un elemento q sea eliminado el primero
+				free= p_last;
+				p_head=NULL;
+				p_last=NULL;
+
 			}
 
 
@@ -167,24 +171,42 @@
 
 		template<class T>
 		void linked_list<T>::remove(const T & d){
-			aux=new node<T>(d);
+			
 			node<T> * tmp;
 			node<T> *tmp2;
 			tmp=p_head;
-			while(aux->dato!=tmp->dato){
+
+			if(p_head==p_last){
+				free=p_head;
+				p_head=NULL;
+				p_last=NULL;
+				
+			
+			}else if(d==p_head->dato){
+				free=p_head; 
+				p_head=p_head->p_next; 
+				free->p_next=free;
+			
+			}else{
+
+
+			while(d!=tmp->dato){
 				if(tmp->p_next!=NULL){
 					tmp2=tmp;
 					tmp=tmp->p_next;
 							
 				}else{
 					cout<<"no encontro"<<endl;
-					delete aux;
+					
 					return;
 				}
 
 			}	
+				free=tmp2->p_next;
 				tmp2->p_next=tmp->p_next;
-				delete tmp;
+
+			
+			}		
 		}
 
 

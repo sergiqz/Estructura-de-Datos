@@ -34,20 +34,25 @@ int main()
 	remove_binary(1,9,tree);
 	*/
 	BST<int, int> tree;
+	tree.insert(100, 4);
+	tree.insert(25, 4);
+	tree.insert(20, 4);
 	tree.insert(10, 4);
-	tree.insert(15, 4);
-	tree.insert(13, 4);
-	tree.insert(16, 4);
-	tree.insert(5, 4);
-	tree.insert(3, 4);
-	tree.insert(6, 4);
-	tree.insert(2, 4);
-	//tree.insert(4, 4);
-	//tree.insert(1, 4);
+	tree.insert(22, 4);
+	tree.insert(40, 4);
+	tree.insert(30, 4);
+	tree.insert(41, 4);
+	tree.insert(150, 4);
+	tree.insert(110, 4);
+	tree.insert(170, 4);
+	tree.insert(109, 4);
+	tree.insert(111, 4);
+	tree.insert(169, 4);
+	tree.insert(171, 4);
 	
 
 	//tree.printgraf();
-	tree.remove(5);
+	tree.remove(25);
 	tree.print();
 
 

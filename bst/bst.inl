@@ -197,17 +197,20 @@ bool BST<K,D>::remove(K _key){
             tmp=*aux;
             auxx=tmp->p_children[0];
             padre=root;
-            if(auxx -> p_children[0]!=NULL or auxx -> p_children[0]!=NULL){
-                padre->p_children[0]=tmp->p_children[0];
-
+            if(auxx -> p_children[1]==NULL){
+                tmp->key=auxx->key;
+                tmp->p_children[0]=auxx->p_children[0];
+                delete auxx;
             }else{
                 while((auxx->p_children[1]!=NULL)){
                     padre=auxx;
                     auxx=auxx->p_children[1];
                 }
+
+                tmp->key=auxx->key;
                 padre->p_children[1]=NULL;
-                padre->p_children[0]=NULL;
-            delete tmp;
+                
+            delete auxx;
             }
         }
 

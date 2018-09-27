@@ -44,7 +44,7 @@ class avl
 
         void printgraf(Node<K,D> * n);
         void printgraf();
-        int Min(Node<K,D> **n);
+        Node<K,D>* Min(Node<K,D> **n);
         int altura(Node<K,D> * n);
         int altura();
         int max(int a,int b);
@@ -54,7 +54,7 @@ class avl
         void print_sinrecu();
         void rotar(Node<K,D>** n, bool side);
         bool balance(Node<K,D> **n,bool child);
-        void Delete(Node<K,D> **n);
+        bool Delete(Node<K,D> **n, K k);
         void printARBOL();
         void printARBOL(Node<K,D> *n);
     
@@ -64,5 +64,5 @@ class avl
 
 
 };
-#include "asd.inl"
+#include "avl.inl"
 #endif

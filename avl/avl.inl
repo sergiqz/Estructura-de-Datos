@@ -65,6 +65,7 @@ bool avl<K,D>::insert (Node<K,D> **n,K x){
     bool child = (*n)->key < x; 
     if(insert(&(*n)->p_children[child],x))
     {
+        
     
         balance(n,child);
         
@@ -207,9 +208,14 @@ int avl<K,D>::altura(){
 }
 
 template<class K,class D>
-int avl<K,D>::Min(Node<K,D> **n)
+Node<K,D>* avl<K,D>::Min(Node<K,D> **n)
 {
-    return (*n)->p_children[0] == NULL ? (*n)->key : Min(&(*n)->p_children[0]);
+    if(*n == NULL)
+        return NULL;
+    else if((*n)->p_children[0] == NULL)
+        return *n;
+    else
+        return Min(&(*n)->p_children[0]);
 }
 
 
@@ -233,7 +239,7 @@ void avl<K,D>::remove(Node<K,D>** n,K x){
 template<class K,class D>
 void avl<K,D>::remove(K x)
 {
-    remove(&root,x);
+    Delete(&root,x);
 }
 
 
@@ -242,18 +248,41 @@ void avl<K,D>::remove(K x)
 
 
 template<class K,class D>
-void avl<K,D>::Delete(Node<K,D> **n)
-    {
-       /* if (*n != NULL)
-        {
-            Delete(&(*n)->p_children[0]);
-            Delete(&(*n)->p_children[1]);
-
-            delete n;
-            n = NULL;
-        }
-        */
+bool avl<K,D>::Delete(Node<K,D> **n, K k)
+{
+    Node<K,D>** temp;
+    if (*n == NULL){ 
+        return false;
     }
+    if((*n)->key == k){
+        if((*n)->p_children[0] && (*n)->p_children[1])
+        {
+            Node<K,D> *aux;
+            //cout<<"xd";
+            aux =Min(&(*n)->p_children[1]);
+            
+            (*n)->key = aux->key;
+            Delete(&(*n)->p_children[1],(*n)->key);
+            
+        }else{
+            temp = n;
+            if((*n)->p_children[0] == NULL){
+                *n = (*n)->p_children[1];
+            }
+            else if((*n)->p_children[1]== NULL){
+                *n = (*n)->p_children[0];
+            }
+            delete *temp;
+        }
+        if(*n==NULL){
+            return false;
+        }
+    }
+    bool child = (*n)->key < k; 
+    if(Delete(&(*n)->p_children[child],k)){
+        balance(n,child);
+    }
+}
 
 
 

@@ -13,7 +13,7 @@ Node<K,D>::~Node(){
 
 template<class K,class D>
 avl<K,D>::avl(){
-    os.open("grap.dot");
+    //os.open("grap.dot");
     root=NULL;
 }
 
@@ -55,7 +55,8 @@ bool avl<K,D>::insert (Node<K,D> **n,K x){
     { 
         *n=new Node<K,D>(x,1); 
         (*n)->key=x; 
-        return true; 
+        return true;
+
     }
 
     if((*n)->key == x){
@@ -78,9 +79,9 @@ bool avl<K,D>::insert (Node<K,D> **n,K x){
 
 
 template<class K,class D> 
-void avl<K,D>::insert(K x) 
+bool avl<K,D>::insert(K x) 
 { 
-    insert(&root,x); 
+    return insert(&root,x); 
 } 
 
 
@@ -237,9 +238,9 @@ void avl<K,D>::remove(Node<K,D>** n,K x){
 
 
 template<class K,class D>
-void avl<K,D>::remove(K x)
+bool avl<K,D>::remove(K x)
 {
-    Delete(&root,x);
+    return Delete(&root,x);
 }
 
 
@@ -250,29 +251,27 @@ void avl<K,D>::remove(K x)
 template<class K,class D>
 bool avl<K,D>::Delete(Node<K,D> **n, K k)
 {
-    Node<K,D>** temp;
+    Node<K,D>* temp;
     if (*n == NULL){ 
         return false;
     }
     if((*n)->key == k){
         if((*n)->p_children[0] && (*n)->p_children[1])
         {
-            Node<K,D> *aux;
-            //cout<<"xd";
-            aux =Min(&(*n)->p_children[1]);
             
-            (*n)->key = aux->key;
+            temp =Min(&(*n)->p_children[1]);
+            (*n)->key = temp->key;
             Delete(&(*n)->p_children[1],(*n)->key);
             
         }else{
-            temp = n;
+            temp = *n;
             if((*n)->p_children[0] == NULL){
                 *n = (*n)->p_children[1];
             }
             else if((*n)->p_children[1]== NULL){
                 *n = (*n)->p_children[0];
             }
-            delete *temp;
+            delete temp;
         }
         if(*n==NULL){
             return false;
@@ -280,7 +279,8 @@ bool avl<K,D>::Delete(Node<K,D> **n, K k)
     }
     bool child = (*n)->key < k; 
     if(Delete(&(*n)->p_children[child],k)){
-        balance(n,child);
+        return balance(n,child);
+
     }
 }
 
@@ -378,33 +378,66 @@ void avl<K,D>::print_sinrecu(){
 
 template<class K, class D>
 void avl<K,D>::printARBOL(){
-    os<<"graph {"<<endl;
+    /*os<<"graph {"<<endl;
     os<<root->key<<endl;
-    printARBOL(root);
+    printARBOL(root,os);
     os<<"}";
     system("dot.lnk -Tpng -o < grap.dot > out2.png");
+*/
 }
+
 
 
 
 
 template<class K,class D>
-void avl<K,D>::printARBOL(Node<K,D> *n){
+void avl<K,D>::printARBOL(Node<K,D> *n, ofstream &os){
     if(n!=NULL){
         if(n->p_children[0]!=NULL){
             os<<n->key;
             os<<"--";
             os<<n->p_children[0]->key<<endl;
-            printARBOL(n->p_children[0]);
+            printARBOL(n->p_children[0], os);
         }
         if(n->p_children[1]!=NULL){
             os<<n->key;
             os<<"--";
             os<<n->p_children[1]->key<<endl;
-            printARBOL(n->p_children[1]);
+            printARBOL(n->p_children[1],os);
         }
     }
 }
+
+
+
+template<class K,class D>
+void avl<K,D>::dibujararbol(int num){
+    string num_arch = to_string(num);
+    string ext1 = ".dot";
+    string num_xt1=""+ num_arch+""+ext1+"";
+    ofstream os(num_xt1);
+
+    string s= to_string(num);
+    string pt1= "dot.lnk -Tpng < ";
+    string pt2=" > ";
+    string pt3=".png";
+    string rt=""+pt1+""+num_xt1+""+pt2+""+s+""+pt3+"";
+    const char *buffer= rt.c_str();
+
+    os<<"graph {"<<endl;
+    os<<root->key<<endl;
+    printARBOL(root,os);
+    os<<"}";
+    os.close();
+    system(buffer);
+}
+
+
+
+
+
+
+
 
 
 

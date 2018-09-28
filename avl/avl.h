@@ -1,7 +1,7 @@
 #ifndef AVL_H_
 #define AVL_H_
 #include <fstream>
-
+#include <string>
 #include <iostream>
 using namespace std;
 
@@ -27,7 +27,7 @@ class avl
 {
     private:
         Node<K,D> * root;
-        ofstream os;
+        //ofstream os;
 
     public:
         avl(); //root null
@@ -36,9 +36,9 @@ class avl
         void destructor(Node<K,D> *n);
         bool find(K _key);
         bool insert(Node<K,D>** n,K x);
-        void insert(K k);
+        bool insert(K k);
         void remove(Node<K,D>** n,K x);
-        void remove(K x);
+        bool remove(K x);
         void print(Node<K,D> * n);
         void print();
 
@@ -56,7 +56,8 @@ class avl
         bool balance(Node<K,D> **n,bool child);
         bool Delete(Node<K,D> **n, K k);
         void printARBOL();
-        void printARBOL(Node<K,D> *n);
+        void printARBOL(Node<K,D> *n, ofstream &os);
+        void dibujararbol(int num);
     
 
     private:

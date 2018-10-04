@@ -53,9 +53,9 @@ class rb
         int max(int a,int b);
         int altura(node<K,D> * n);
         int altura();
-        void printARBOL(node<K,D> *n);
+        void printARBOL(ofstream & es,node<K,D> *n);
         void printARBOL();
-        void printCOLOR(node<K,D> *n);
+        void printCOLOR(ofstream & es,node<K,D> *ptr);
         void dibujararbol(int num);
         D& operator[](const K &_key);
         bool find(node<K,D> *n,int a);

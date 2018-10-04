@@ -1,11 +1,11 @@
 template<class K,class D>
 node<K,D>::node(const K & _key, const D & _data){
-	key=_key;
-	data=_data;
-	p_child[0]=NULL;
+    key=_key;
+    data=_data;
+    p_child[0]=NULL;
     p_child[1]=NULL;
-	color=RED;
-	
+    color=RED;
+    
 }
 
 template<class K,class D>
@@ -14,11 +14,11 @@ node<K,D>::~node(){
 
 template<class K,class D>
 rb<K,D>::rb(){
-	root=NULL;
+    root=NULL;
 }
 template<class K,class D>
 rb<K,D>::~rb(){
-	
+    
 }
 
 template<class K, class D>
@@ -244,10 +244,16 @@ void rb<K,D>::convertirRedblack(node<K,D> **n,node<K,D> **p,bool child,node<K,D>
             if(child!=parent){
                 balance(p,child);
                 balance(n,parent);
+                //cout<<(*p)->key<<endl;
+                //cout<<(*p)->p_child[0]->key<<endl;
+                
                 (*n)->color = BLACK;
                 (*n)->p_child[0]->color = RED;
                 (*n)->p_child[1]->color = RED;
+
                 root->color = BLACK;
+                cout<<root->key<<endl;
+                
             }
             else{
                 balance(n,parent);
@@ -255,7 +261,7 @@ void rb<K,D>::convertirRedblack(node<K,D> **n,node<K,D> **p,bool child,node<K,D>
                 (*n)->p_child[!parent]->color = RED;
                 root->color = BLACK;
             }
-        }   
+        }  
     }
     return;     
 }
@@ -332,15 +338,15 @@ void rb<K,D>::preorder() {
 
 
 template<class K, class D>
-void rb<K,D>::printCOLOR(node<K,D> *ptr){
+void rb<K,D>::printCOLOR(ofstream & es,node<K,D> *ptr){
   if (ptr == NULL)
     return;
   if(ptr->color == 0){
-    cout << ptr->key << "[style=filled, fillcolor=black, fontcolor=white]"<< endl;
+    es<< ptr->key << "[style=filled, fillcolor=black, fontcolor=white]"<< endl;
   }
-  else cout << ptr->key << "[style=filled, fillcolor=red]"<< endl;
-  printCOLOR(ptr->p_child[0]);
-  printCOLOR(ptr->p_child[1]);
+  else es<< ptr->key << "[style=filled, fillcolor=red]"<< endl;
+  printCOLOR(es,ptr->p_child[0]);
+  printCOLOR(es,ptr->p_child[1]);
 }
 
 template<class K, class D>
@@ -352,22 +358,35 @@ void rb<K,D>::printARBOL(){
 }
 
 template<class K, class D>
-void rb<K,D>::printARBOL(node<K,D> *n){
+void rb<K,D>::printARBOL(ofstream & es,node<K,D> *n){
     if(n!=NULL){
         if(n->p_child[0]!=NULL){
-            cout<<n->key;
-            cout<<" -> ";
-            cout<<n->p_child[0]->key<<endl;
-            printARBOL(n->p_child[0]);
+            es<<n->key;
+            es<<" -> ";
+            es<<n->p_child[0]->key<<endl;
+            printARBOL(es,n->p_child[0]);
         }
         if(n->p_child[1]!=NULL){
-            cout<<n->key;
-            cout<<" -> ";
-            cout<<n->p_child[1]->key<<endl;
-            printARBOL(n->p_child[1]);
+            es<<n->key;
+            es<<" -> ";
+            es<<n->p_child[1]->key<<endl;
+            printARBOL(es,n->p_child[1]);
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 template<class K, class D>
 bool rb<K,D>::find(node<K,D> *n,int a){
     if(n==NULL){
@@ -424,24 +443,24 @@ void rb<K,D>::sucesorcito(){
 
 
 
-template<class K,class D>
+template<class K, class D>
 void rb<K,D>::dibujararbol(int num){
     string num_arch = to_string(num);
     string ext1 = ".dot";
-    string num_xt1=""+ num_arch+""+ext1+"";
-    ofstream os(num_xt1);
-
-    string s= to_string(num);
-    string pt1= "dot.lnk -Tpng < ";
+    string num_xt1=""+ num_arch +""+ ext1 +"";
+    ofstream es(num_xt1);
+    ////////
+    string s = to_string(num);
+    string pt1="dot.lnk -Tpng  < ";
     string pt2=" > ";
     string pt3=".png";
-    string rt=""+pt1+""+num_xt1+""+pt2+""+s+""+pt3+"";
-    const char *buffer= rt.c_str();
-
-    os<<"graph {"<<endl;
-    os<<root->key<<endl;
-    printARBOL(root,os);
-    os<<"}";
-    os.close();
+    string rt=""+ pt1 +""+ num_xt1 +""+ pt2 +""+ s +""+ pt3 +"";
+    const char *buffer = rt.c_str();
+    ////////
+    es<<"digraph mentions {"<<endl;
+    printARBOL(es,root);
+    printCOLOR(es,root);
+    es<<"}"<<endl;
+    es.close();
     system(buffer);
 }

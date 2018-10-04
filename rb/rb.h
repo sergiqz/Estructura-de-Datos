@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <fstream>
-#include <stack>
+
 
 using namespace std;
 
@@ -20,8 +20,8 @@ class node
         D data;
         node<K,D> *p_child[2];
         color_t color;
-        node<K,D> *parent;
         int hgt;
+  
     
     public:
         node();
@@ -40,25 +40,35 @@ class rb
     public:
         rb();
         ~rb();
-        bool insertBST(K x,node<K,D> **&tmp,node<K,D> **&padre);
-        bool insertValor(K _key,D _data);
-        void convertirRedblack(node<K,D> **&ptr);
+        node<K,D>* insert (const K & key,const D & data, node<K,D> ** n, node<K,D> ** p);
+        bool insert(const K & key,const D & data) ;
+        node<K,D>* remove (const K & key,const D & data, node<K,D> ** n, node<K,D> ** p);
+        bool remove(const K & key,const D & data) ;
+
+        void convertirRedblack(node<K,D> **n,node<K,D> **p,bool child,node<K,D> *aux);
         color_t getColor(node<K,D> *&n);
         void setColor(node<K,D> *&n, color_t color);
         void preorderBST(node<K,D> *ptr);
         void preorder();
-        void rotacionizq(node<K,D>*& ptr);
-        void rotacionder(node<K,D>*& ptr);
         int max(int a,int b);
         int altura(node<K,D> * n);
         int altura();
         void printARBOL(node<K,D> *n);
         void printARBOL();
         void printCOLOR(node<K,D> *n);
+        void dibujararbol(int num);
         D& operator[](const K &_key);
         bool find(node<K,D> *n,int a);
         node<K,D>* sucesor(node<K,D> * n);
         void sucesorcito();
+       
+        bool turnSide(node<K,D> **n, bool side);
+        void rotar(node<K,D>** n, bool side);
+        bool balance(node<K,D> **n,bool child);
+        node<K,D>* Min(node<K,D> **n);
+        void print(node<K,D> * n);
+        void print();
+
 
     private:
         bool draw(node<K,D> *n, ofstream & os);

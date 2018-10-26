@@ -1,6 +1,7 @@
 // Example program
 #include <iostream>
 #include <string>
+#include <fstream>
 
 using namespace std;
 
@@ -10,10 +11,10 @@ class BH
     private:
         T * elems;
         size_t size;
-        int capacidad=0;
-        
+        ofstream os;
+
     public:
-        BH(): elems(new T[cap]), size(0){};
+        BH(): elems(new T[cap]), size(0),os("grap.dot"){};
         ~BH()
         {
             delete [] elems;
@@ -21,24 +22,24 @@ class BH
         
         void push(T x)
         {
-            if(capacidad == cap){
+            if(size == cap){
                 return;
             } 
-            elems[capacidad] = x;  
-            up(capacidad);
-            capacidad++;
+            elems[size] = x;  
+            up(size);
+            size++;
         }
         
         // delete min 
         void pop()
         {
-            if(capacidad==0){
+            if(size==0){
                 return;
             }
             
-            elems[0]=elems[capacidad-1];
+            elems[0]=elems[size-1];
             down(0);
-            capacidad--;
+            size--;
         }
         
         // min 
@@ -47,18 +48,81 @@ class BH
             return elems[0];
         }
 
-        void Heapily(){
-            for(int i=cap/2;i>=0;i--){
-                down(i);
-            }
+        void Heapily(int i){
+		    int node = i; 
+		    if (childlef(i)<size and elems[childlef(i)] > elems[i]){
+		        node = childlef(i); 
+		    }
+		      if (childrig(i)<size and elems[childrig(i)] > elems[node]){ 
+		          node = childrig(i); 
+		      }
+		      if (node != i) 
+		      { 
+		          swap(elems[i],elems[node]); 
+		          Heapily(node); 
+		      } 
+        }
+        void printArray()
+		{
+   			for (int i=0; i<size; ++i){
+	    			cout << elems[i] <<endl;
+	   		}
+	   	}
+	   void convertir_heap(int array[],int _size){
+	      size=0;
+	      int f;
+	      if (size<_size)
+	        f=_size;
+	      else 
+	        f=size;
+	      for(int i=0;i<f;i++){
+	        elems[i]=array[i];
+	        size++;
+	      }
+	    }
+
+	   	void Heap_sort(){
+		    int temp=size;
+		    for (int i = size/2; i >= 0; i--){
+		        Heapily(i);
+		    }
+		    
+		    for (int i=size-1; i>=0; i--){ 
+		          size=i;
+		          swap(elems[0], elems[i]);  
+		          Heapily(0); 
+		      }
+		     size=temp;
+		       
         }
 
 
+        void draw(){
+            os<<"graph {"<<endl;
+            os<<elems[0]<<endl;
+            print();
+            os<<"}"<<endl;
+        }
+
+        void print(){
+            int c=0;
+            while(c<size){
+                int l=childlef(c);
+                int r=childrig(c);
+                if(l<size){
+                    os<<elems[c]<<"--"<<elems[l]<<endl;
+                }
+                if(r<size){
+                    os<<elems[c]<<"--"<<elems[r]<<endl;
+                }
+                c++;
+            }
+        }
     
     private:
         void up(int i)
         {
-            while (i != 0 and elems[father(i)] < elems[i]) // i != 0 xq no puede subir la raiz y su padre tiene q ser mayor
+            while (i != 0 and elems[father(i)] < elems[i])
             {  
                 swap(elems [i], elems[father(i)]);
                 i = father(i);
@@ -68,19 +132,18 @@ class BH
         
         void down(int i)
         {
-            while (i<capacidad){ 
-            if(max(i)){
-                swap(elems[i],elems[childrig(i)]);
-                i=childrig(i);
-            }
-            else if(max(i)==false){
-                swap(elems[i],elems[childlef(i)]);
-                i=childlef(i);
-            }
-            else{       
-                break;
-            }
-          } 
+            while (i<size){ 
+            	if(max(i)){
+                	swap(elems[i],elems[childrig(i)]);
+                	i=childrig(i);
+            	}
+            	else if(max(i)==false){
+                	swap(elems[i],elems[childlef(i)]);
+                	i=childlef(i);
+            	}else{       
+                	return;
+            	}
+         	}	 
             
         }
         int father(int i){
@@ -101,9 +164,7 @@ class BH
 
         }
 
-        void Heap_sort(){
 
-        }
 
 };
 
@@ -111,21 +172,19 @@ int main()
 {
     BH<int> h;
     
-    for(int i = 19; i > 9; i--){
+   /* for(int i = 19; i > 9; i--){
         h.push(i);
     }
-    
-    int array[10];
+    */
+    int array[10]={20,1,45,5,76,43,12,200,54,23};
 
+    h.convertir_heap(array,10);
+    h.printArray();
+    h.Heap_sort();
+    cout<<"-------------------"<<endl;
+    h.printArray();
 
-
-    cout << h.top() << endl;
-    h.pop();
-    
-    cout << h.top() << endl;
-
-    h.Heapily();
-    cout << h.top() << endl;
+    //cout << h.top() << endl;
 
     return 0;
 }

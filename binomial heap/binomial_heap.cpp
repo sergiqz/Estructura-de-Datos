@@ -13,11 +13,19 @@ class binomial_tree
 private:
 	T dato;
 	vector<binomial_tree<T>*> p_children;
+
 public:
 	binomial_tree(const T & d){
 		dato=d;
 	}
-	~binomial_tree(){}
+	~binomial_tree(){
+		for(binomial_tree<T>*p : p_children)
+	    {
+	        delete p;
+	    }
+
+	}
+
 	void print(ostream & os){
 		os<<"p"<<this<<" [label=\""<<dato<<"\"]"<<endl;
 		for(binomial_tree<T>*p:p_children){
@@ -25,6 +33,7 @@ public:
 			os<<"p"<<this<<" -> p"<<p<<endl;
 		}
 	}
+
 	void imprimir(){
 
 		cout<<"dato: "<<dato<<endl;
@@ -84,6 +93,12 @@ public:
 		return b;
 	}	
 
+	binomial_tree<T> * comparacion(binomial_tree<T> * a, binomial_tree<T> * b){
+		if(a->dato < b->dato){
+			return a;
+		}
+		return b;
+	}
 
 
 	int remove_min(){
@@ -94,9 +109,6 @@ public:
 
 
 
-	binomial_tree<T> * find(){ 
-
-	}	 
 
 	void print(){
 		ofstream os("binh.dot");
@@ -151,12 +163,15 @@ public:
 		if (parentIdx == -1) return; 
 
 		if (head[parentIdx] > head[idx]) {
+			cout<<"xd";
 			swap(head[parentIdx], head[idx]);
 		    bubbleUp(parentIdx);
 		} 
 	}
-	int parent(unsigned int idx) const {
-  		if (size <= 1) return -1; 
+	int parent(int idx){
+  		if (size <= 1){
+  		 return -1; 
+  		}
   		return ((int) idx / 2); 
 	}
 
@@ -165,7 +180,7 @@ public:
 
 
 
-	int child(unsigned int idx) const {
+	int child(int idx) const {
 		  if (size <= 1 || 2 * idx > size ) return -1; 
 		  return (2 * idx);
 		}
@@ -183,23 +198,39 @@ public:
 		    return (head[bIdx] < head[cIdx]) ? bIdx : cIdx;
 		  }
 	}
-	int find(unsigned int idx, int val) const { //O(log n)
-	 /* if (idx > size) return -1; //base case: idx out of bounds
-	  if (val < head[idx]) return -1;   //base case: val not in min-heap
-	  if (head[idx] == val) return idx; //Found the val, return its index
-*/
-	  int childIdx = child(idx), i = -1;
-	  cout<<head[idx]->dato<<endl;
-	  if (childIdx != -1) { //find in left and right children
-	    i = max(find(childIdx, val), find(childIdx + 1, val));
-	  }
+	bool find(binomial_tree<T> * b, int x){
 
-	  return i;
+		int i = b->p_children.size();
+		
+		if(!head[i]){
+			
+			cout<<"enonctrado";
+			return true;
+		}
+		find(comparacion(head[0],b),x);
+		head[i]=NULL;
+		
 	}
 
 
 
-	/*void remove(int val) { //O(2 * log n)
+	void find(int d){
+
+		find(new binomial_tree<T>(d),d);
+	}
+
+
+	void pop() {
+		if(size==0){
+			return;
+		}
+
+
+
+	}
+
+
+	/*void remove(int val) {
 	  int idx = find(1, val);
 	  if (idx == -1) return;
 
@@ -223,14 +254,18 @@ int main(){
 	bh.insert(12);
 	bh.insert(1);
 	bh.insert(100);
-	//bh.insert(39);
+	
+	//cout<<bh.child(2)<<endl;
 	//bh.insert(0);
 	//bh.insert(85);
 	/*
 	for(int i=1;i<1024;i++){
 		bh.insert(i);
 	}*/
-	cout<<bh.find(1,1)<<endl;
+	//bh.find(230);
+	//bh.imprimir();
+	//cout<<"------------------------------------------------------------"<<endl;
+	//bh.bubbleDown(1);
 	//bh.convert(array);
 
 	/*for(int i=0;i<6;i++){

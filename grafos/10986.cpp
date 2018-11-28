@@ -3,6 +3,7 @@
 #include <vector>
 #include <queue>
 #include <iostream>
+
 using namespace std;
 
 class Edge {
@@ -16,7 +17,7 @@ int distancia[20000];
 vector<Edge> G[20000];
 
 
-void SPFA(int st, int ed) {
+void dijkstra(int st, int ed) {
     queue<int> q;
     q.push(st);
     distancia[st] = 0;
@@ -69,7 +70,7 @@ int main() {
         for(int i = 0; i < n; i++){
             distancia[i] = inf;
         }
-        SPFA(S, T);
+        dijkstra(S, T);
         memset(visitado, 0, sizeof(visitado));
         
     }

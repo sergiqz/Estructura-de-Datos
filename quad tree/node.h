@@ -12,6 +12,22 @@ class Node{
         pos = _pos; 
         data = _data;
     }
+    void set_x(int _x){
+    	pos.set_x(_x);
+    }
+    void set_y(int _y){
+    	pos.set_y(_y);
+    }
+    void set_x_y(int _x,int _y){
+		pos.set_x_y(_x,_y);
+    }
+    int get_x(){
+    	return pos.get_x();
+    }
+    int get_y(){
+    	return pos.get_y();
+    }
+
 
 };
 

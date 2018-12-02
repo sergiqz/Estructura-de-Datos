@@ -27,7 +27,9 @@ class Node{
     int get_y(){
     	return pos.get_y();
     }
-
+    Point get_pos(){
+        return pos;
+    }
 
 };
 

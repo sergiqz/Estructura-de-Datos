@@ -7,8 +7,9 @@ class Node{
   private:
     Point pos; 
     int data; 
+
   public:  
-    Node(Point _pos, int _data=0){
+    Node(Point _pos, int _data){
         pos = _pos; 
         data = _data;
     }
@@ -26,6 +27,9 @@ class Node{
     }
     int get_y(){
     	return pos.get_y();
+    }
+    int get_data(){
+        return data;   
     }
     Point get_pos(){
         return pos;

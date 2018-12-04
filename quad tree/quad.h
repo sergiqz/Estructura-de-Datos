@@ -8,7 +8,7 @@ class Quad{
   	Point botLeft; 
     Point topRight;
     
-    Node *n; 
+    Node *nn; 
   
     Quad *topL; 
     Quad *topR; 
@@ -18,7 +18,7 @@ class Quad{
     Quad(Point _botL, Point _topR){ 
         botLeft = _botL; 
         topRight = _topR; 
-        n = NULL; 
+        nn = NULL; 
         topL = NULL; 
         topR = NULL; 
         botL = NULL; 
@@ -27,7 +27,7 @@ class Quad{
     Quad(){ 
         botLeft = Point(0, 0); 
         topRight = Point(0,0); 
-        n = NULL; 
+        nn = NULL; 
         topL = NULL; 
         topR = NULL; 
         botL = NULL; 
@@ -35,7 +35,7 @@ class Quad{
     } 
 
     void insert(Node *n){ 
-        cout<<"insert"<<endl;
+        //cout<<"insert"<<endl;
 
 
         if(n == NULL){ 
@@ -43,16 +43,18 @@ class Quad{
         }
         //si esta en el quad
         if (!(n->get_x() >= botLeft.get_x() and n->get_x() <= topRight.get_x() and n->get_y() >= botLeft.get_y() and n->get_y() <= topRight.get_y())){
-            cout<<"no esta en el quad"<<endl;
+          //  cout<<"no esta en el quad"<<endl;
             return; 
          }
         //nose puede divir mas
         if (abs(botLeft.get_x() - topRight.get_x()) <= 1 and abs(botLeft.get_y() - topRight.get_y() ) <= 1) { 
-            cout<<"nose puede dividir mas"<<endl;
+            if (nn == NULL){
+                nn=n;
+            }
             return; 
         } 
-        cout<<(botLeft.get_x() + topRight.get_x()) / 2<<endl;
-        cout<<(botLeft.get_y() + topRight.get_y()) / 2<<endl;
+        //cout<<(botLeft.get_x() + topRight.get_x()) / 2<<endl;
+        //cout<<(botLeft.get_y() + topRight.get_y()) / 2<<endl;
    
         if ((botLeft.get_x() + topRight.get_x()) / 2  >= n->get_x()){
             if ((botLeft.get_y() + topRight.get_y()) / 2 >= n->get_y()){
@@ -85,6 +87,48 @@ class Quad{
 
 
 }
+
+
+Node* find(Point po){
+    //si esta en el quad
+    if (!(po.get_x() >= botLeft.get_x() and po.get_x() <= topRight.get_x() and po.get_y() >= botLeft.get_y() and po.get_y() <= topRight.get_y())){
+        cout<<"no esta en el quad"<<endl;
+        return NULL; 
+    }
+    if (nn != NULL){
+         return nn;
+    }
+
+    if ((botLeft.get_x() + topRight.get_x()) / 2  >= po.get_x()){
+            if ((botLeft.get_y() + topRight.get_y()) / 2 >= po.get_y()){
+                if(botL == NULL){
+                    return NULL; 
+                }
+                return botL->find(po);
+           }else{
+                if (topL == NULL){ 
+                    return NULL; 
+                }
+                return topL->find(po);
+            }
+ 
+        }else{
+            if((botLeft.get_y() + topRight.get_y()) / 2 >= po.get_y()){
+                if (botR == NULL){
+                    return NULL; 
+                }
+                return botR->find(po);
+            }else{
+                if (topR == NULL){
+                    return NULL; 
+                }
+                return topR->find(po);
+            }
+        }
+
+}
+
+
 
 
 };

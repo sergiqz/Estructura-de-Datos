@@ -1,17 +1,19 @@
 #ifndef NODE_H
 #define NODE_H
 #include "point.h"
+#include "rgb.h"
 using namespace std;
 
 class Node{
   private:
     Point pos; 
+    Rgb rgb;
     int data; 
 
   public:  
-    Node(Point _pos, int _data){
+    Node(Point _pos, Rgb _rgb){
         pos = _pos; 
-        data = _data;
+        rgb=_rgb;
     }
     void set_x(int _x){
     	pos.set_x(_x);
@@ -28,8 +30,8 @@ class Node{
     int get_y(){
     	return pos.get_y();
     }
-    int get_data(){
-        return data;   
+    Rgb get_rgb(){
+        return rgb;   
     }
     Point get_pos(){
         return pos;

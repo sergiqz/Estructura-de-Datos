@@ -18,7 +18,7 @@ Compile the program: modify the BMP route and change the name of the txt file th
 
 ## Execute Program Quad
 The g ++ 11 version is recommended.<br />
-<br />
+the rgb of the image copy it into the img folder. Change the name in the path of the RGB image image. Assign the pixel size in 2 dimensions<br />
 Compile the program: g++ main.cpp -o main.exe<br />
 <br />
 Execute: main.exe
